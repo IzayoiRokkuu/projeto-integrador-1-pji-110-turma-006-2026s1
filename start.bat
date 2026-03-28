@@ -1,6 +1,7 @@
 @echo off
-cd /d "C:\Users\viroq\OneDrive\Documentos\Projetos - Univesp\projeto-integrador-1"
-venv\Scripts\activate
+python -m venv venv
+call venv\Scripts\activate
+pip install -r requirements.txt
 cd sistema_estoque
 python manage.py runserver
-cmd /k
+pause
