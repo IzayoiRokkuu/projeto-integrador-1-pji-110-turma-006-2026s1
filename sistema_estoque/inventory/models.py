@@ -14,6 +14,18 @@ class Movimentacao(models.Model):
     quantidade = models.IntegerField()
     data = models.DateTimeField(auto_now_add=True)
     observacao = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        """Atualiza o estoque do produto ao salvar a movimentação"""
+        if not self.pk:  # Se é uma nova movimentação (ainda não salva no banco)
+            produto = self.produto
+            if self.tipo == 'Entrada':
+                produto.quantidade_atual += self.quantidade
+            elif self.tipo == 'Saida':
+                produto.quantidade_atual -= self.quantidade
+            produto.save()
+        
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.tipo} - {self.produto.nome} - {self.quantidade}"
