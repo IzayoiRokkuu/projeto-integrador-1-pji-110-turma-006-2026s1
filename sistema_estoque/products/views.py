@@ -77,3 +77,9 @@ def produto_create(request):
             'id': produto.id,
             'message': 'Produto cadastrado com sucesso!'
         }, status=201)
+    
+def listagem_view(request):
+    return render(request, 'products/listagem.html')
+
+def cadastro_view(request):
+    return render(request, 'products/cadastro.html')
