@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+from django.db import models
 from .models import Produto, Categoria, Fornecedor
 import json
 
@@ -88,4 +89,25 @@ def listar_categorias(request):
     """Retorna lista de categorias para o frontend"""
     categorias = Categoria.objects.all()
     data = [{'id': c.id, 'nome': c.nome} for c in categorias]
+    return JsonResponse(data, safe=False)
+
+def listar_fornecedores(request):
+    """Retorna lista fornecedores para o frontend"""
+    fornecedores = Fornecedor.objects.all()
+    data = [{'id': f.id, 'nome': f.nome} for f in fornecedores]
+    return JsonResponse(data, safe=False)
+
+def relatorio_estoque_baixo(request):
+    """Retorna produtos com quantidade atual <= estoque mínimo"""
+    produtos = Produto.objects.filter(quantidade_atual__lte=models.F('estoque_minimo'))
+    
+    data = [{
+        'id': p.id,
+        'nome': p.nome,
+        'codigo': p.codigo,
+        'quantidade_atual': p.quantidade_atual,
+        'estoque_minimo': p.estoque_minimo,
+        'categoria': p.categoria.nome if p.categoria else None
+    } for p in produtos]
+    
     return JsonResponse(data, safe=False)

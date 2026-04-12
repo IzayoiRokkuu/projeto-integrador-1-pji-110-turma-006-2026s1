@@ -82,11 +82,11 @@ async function cadastrarProduto(evento) {
             document.getElementById('quantidadeProduto').value = '';
             document.getElementById('precoProduto').value = '';
         } else {
-            alert('❌ Erro ao cadastrar produto: ' + (resultado.error || 'Verifique os dados'));
+            alert('Erro ao cadastrar produto: ' + (resultado.error || 'Verifique os dados'));
         }
     } catch (erro) {
         console.error('Erro:', erro);
-        alert('❌ Erro ao conectar com o servidor. Verifique se o servidor está rodando.');
+        alert('Erro ao conectar com o servidor. Verifique se o servidor está rodando.');
     }
 }
 

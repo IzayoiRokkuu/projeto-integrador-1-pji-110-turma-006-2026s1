@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from products.models import Produto
 from .models import Movimentacao
+from django.db.models import Sum
+from datetime import datetime
 import json
 
 @csrf_exempt
@@ -129,3 +131,28 @@ def movimentacoes_por_produto(request, produto_id):
         })
     
     return JsonResponse({'error': 'Método não permitido'}, status=405)
+
+
+def relatorio_movimentacoes_periodo(request):
+    """Retorna total de entradas e saídas em um período"""
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+    
+    movimentacoes = Movimentacao.objects.all()
+    
+    if data_inicio:
+        movimentacoes = movimentacoes.filter(data__date__gte=data_inicio)
+    if data_fim:
+        movimentacoes = movimentacoes.filter(data__date__lte=data_fim)
+    
+    total_entradas = movimentacoes.filter(tipo='Entrada').aggregate(total=Sum('quantidade'))['total'] or 0
+    total_saidas = movimentacoes.filter(tipo='Saida').aggregate(total=Sum('quantidade'))['total'] or 0
+    
+    return JsonResponse({
+        'total_entradas': total_entradas,
+        'total_saidas': total_saidas,
+        'periodo': {
+            'data_inicio': data_inicio or 'todas',
+            'data_fim': data_fim or 'todas'
+        }
+    })
