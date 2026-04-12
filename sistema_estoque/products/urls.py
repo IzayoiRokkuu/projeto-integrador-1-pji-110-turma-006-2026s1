@@ -9,4 +9,5 @@ urlpatterns = [
     #path('listagem/', TemplateView.as_view(template_name='products/listagem.html'), name='listagem_produtos'),
     path('listagem/', views.listagem_view, name='listagem'),
     path('cadastro/', views.cadastro_view, name='cadastro'),
+    path('categorias/', views.listar_categorias, name='listar-categorias'),
 ]

@@ -1,5 +1,28 @@
 // cadastro.js
 
+// Carregar categorias do backend
+async function carregarCategorias() {
+    try {
+        const response = await fetch('/api/categorias/');
+        const categorias = await response.json();
+        
+        const select = document.getElementById('categoriaProduto');
+        
+        // Limpar opções existentes (manter a primeira opção vazia)
+        select.innerHTML = '<option value="">Selecione uma categoria...</option>';
+        
+        // Adicionar categorias do banco
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nome;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar categorias:', error);
+    }
+}
+
 async function cadastrarProduto(evento) {
     evento.preventDefault();  // Impede o formulário de recarregar a página
     
@@ -69,6 +92,8 @@ async function cadastrarProduto(evento) {
 
 // Quando a página carregar, associar o evento ao formulário
 document.addEventListener('DOMContentLoaded', function() {
+    carregarCategorias();
+
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', cadastrarProduto);

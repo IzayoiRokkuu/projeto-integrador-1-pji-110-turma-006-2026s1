@@ -83,3 +83,9 @@ def listagem_view(request):
 
 def cadastro_view(request):
     return render(request, 'products/cadastro.html')
+
+def listar_categorias(request):
+    """Retorna lista de categorias para o frontend"""
+    categorias = Categoria.objects.all()
+    data = [{'id': c.id, 'nome': c.nome} for c in categorias]
+    return JsonResponse(data, safe=False)
