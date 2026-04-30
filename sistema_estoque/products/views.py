@@ -91,11 +91,103 @@ def listar_categorias(request):
     data = [{'id': c.id, 'nome': c.nome} for c in categorias]
     return JsonResponse(data, safe=False)
 
+def criar_categoria(request):
+    """Criar uma nova categoria"""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            categoria = Categoria.objects.create(
+                nome=data['nome'],
+                descricao=data.get('descricao', '')
+            )
+            return JsonResponse({
+                'id': categoria.id,
+                'message': 'Categoria criada com sucesso!'
+            }, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
+
+def detalhes_categoria(request, id):
+    """Buscar, editar ou excluir uma categoria"""
+    categoria = get_object_or_404(Categoria, id=id)
+    
+    if request.method == 'GET':
+        data = {'id': categoria.id, 'nome': categoria.nome, 'descricao': categoria.descricao}
+        return JsonResponse(data)
+    
+    elif request.method == 'PUT':
+        try:
+            data = json.loads(request.body)
+            categoria.nome = data.get('nome', categoria.nome)
+            categoria.descricao = data.get('descricao', categoria.descricao)
+            categoria.save()
+            return JsonResponse({'message': 'Categoria atualizada com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    
+    elif request.method == 'DELETE':
+        categoria.delete()
+        return JsonResponse({'message': 'Categoria excluída com sucesso!'})
+    
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
+
 def listar_fornecedores(request):
     """Retorna lista fornecedores para o frontend"""
     fornecedores = Fornecedor.objects.all()
     data = [{'id': f.id, 'nome': f.nome} for f in fornecedores]
     return JsonResponse(data, safe=False)
+
+def criar_fornecedor(request):
+    """Criar um novo fornecedor"""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            fornecedor = Fornecedor.objects.create(
+                nome=data['nome'],
+                cnpj=data.get('cnpj', ''),
+                telefone=data.get('telefone', ''),
+                email=data.get('email', '')
+            )
+            return JsonResponse({
+                'id': fornecedor.id,
+                'message': 'Fornecedor criado com sucesso!'
+            }, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
+
+def detalhes_fornecedor(request, id):
+    """Buscar, editar ou excluir um fornecedor"""
+    fornecedor = get_object_or_404(Fornecedor, id=id)
+    
+    if request.method == 'GET':
+        data = {
+            'id': fornecedor.id,
+            'nome': fornecedor.nome,
+            'cnpj': fornecedor.cnpj,
+            'telefone': fornecedor.telefone,
+            'email': fornecedor.email
+        }
+        return JsonResponse(data)
+    
+    elif request.method == 'PUT':
+        try:
+            data = json.loads(request.body)
+            fornecedor.nome = data.get('nome', fornecedor.nome)
+            fornecedor.cnpj = data.get('cnpj', fornecedor.cnpj)
+            fornecedor.telefone = data.get('telefone', fornecedor.telefone)
+            fornecedor.email = data.get('email', fornecedor.email)
+            fornecedor.save()
+            return JsonResponse({'message': 'Fornecedor atualizado com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    
+    elif request.method == 'DELETE':
+        fornecedor.delete()
+        return JsonResponse({'message': 'Fornecedor excluído com sucesso!'})
+    
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
 
 def relatorio_estoque_baixo(request):
     """Retorna produtos com quantidade atual <= estoque mínimo"""
