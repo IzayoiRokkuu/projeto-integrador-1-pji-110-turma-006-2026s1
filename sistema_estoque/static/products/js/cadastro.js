@@ -1,5 +1,3 @@
-// cadastro.js
-
 // Carregar categorias do backend
 async function carregarCategorias() {
     try {

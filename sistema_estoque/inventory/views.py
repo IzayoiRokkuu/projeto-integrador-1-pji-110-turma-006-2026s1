@@ -21,7 +21,7 @@ def entrada_produto(request):
             # Buscar o usuário (por enquanto, pega o primeiro admin)
             usuario = User.objects.filter(is_superuser=True).first()
             
-            # Registrar movimentação
+            # Registrar movimentação (o save() do model atualiza o estoque)
             movimentacao = Movimentacao.objects.create(
                 produto=produto,
                 usuario=usuario,
@@ -30,9 +30,8 @@ def entrada_produto(request):
                 observacao=data.get('observacao', '')
             )
             
-            # Atualizar estoque do produto
-            produto.quantidade_atual += data['quantidade']
-            produto.save()
+            # Buscar o produto atualizado novamente para pegar o novo estoque
+            produto.refresh_from_db()
             
             return JsonResponse({
                 'id': movimentacao.id,
@@ -45,7 +44,6 @@ def entrada_produto(request):
     
     return JsonResponse({'error': 'Método não permitido'}, status=405)
 
-
 @csrf_exempt
 def saida_produto(request):
     """Registrar saída de produtos do estoque"""
@@ -56,7 +54,7 @@ def saida_produto(request):
             # Buscar o produto
             produto = get_object_or_404(Produto, id=data['produto_id'])
             
-            # Validar se há estoque suficiente
+            # Validar se há estoque suficiente (antes de criar a movimentação)
             if produto.quantidade_atual < data['quantidade']:
                 return JsonResponse({
                     'error': f'Estoque insuficiente. Disponível: {produto.quantidade_atual}'
@@ -65,7 +63,7 @@ def saida_produto(request):
             # Buscar o usuário
             usuario = User.objects.filter(is_superuser=True).first()
             
-            # Registrar movimentação
+            # Registrar movimentação (o save() do model atualiza o estoque)
             movimentacao = Movimentacao.objects.create(
                 produto=produto,
                 usuario=usuario,
@@ -74,9 +72,8 @@ def saida_produto(request):
                 observacao=data.get('observacao', '')
             )
             
-            # Atualizar estoque do produto
-            produto.quantidade_atual -= data['quantidade']
-            produto.save()
+            # Buscar o produto atualizado novamente para pegar o novo estoque
+            produto.refresh_from_db()
             
             return JsonResponse({
                 'id': movimentacao.id,
@@ -88,7 +85,6 @@ def saida_produto(request):
             return JsonResponse({'error': str(e)}, status=400)
     
     return JsonResponse({'error': 'Método não permitido'}, status=405)
-
 
 def listar_movimentacoes(request):
     """Listar todas as movimentações"""

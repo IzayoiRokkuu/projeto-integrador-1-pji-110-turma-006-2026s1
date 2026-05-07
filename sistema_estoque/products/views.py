@@ -85,12 +85,25 @@ def listagem_view(request):
 def cadastro_view(request):
     return render(request, 'products/cadastro.html')
 
+def index_view(request):
+    return render(request, 'products/index.html')
+
+def categorias_view(request):
+    return render(request, 'products/categorias.html')
+
+def fornecedores_view(request):
+    return render(request, 'products/fornecedores.html')
+
+def movimentacao_view(request):
+    return render(request, 'products/movimentacao.html')
+
 def listar_categorias(request):
     """Retorna lista de categorias para o frontend"""
     categorias = Categoria.objects.all()
     data = [{'id': c.id, 'nome': c.nome} for c in categorias]
     return JsonResponse(data, safe=False)
 
+@csrf_exempt
 def criar_categoria(request):
     """Criar uma nova categoria"""
     if request.method == 'POST':
@@ -133,11 +146,17 @@ def detalhes_categoria(request, id):
     return JsonResponse({'error': 'Método não permitido'}, status=405)
 
 def listar_fornecedores(request):
-    """Retorna lista fornecedores para o frontend"""
     fornecedores = Fornecedor.objects.all()
-    data = [{'id': f.id, 'nome': f.nome} for f in fornecedores]
+    data = [{
+        'id': f.id,
+        'nome': f.nome,
+        'cnpj': f.cnpj or '',
+        'telefone': f.telefone or '',
+        'email': f.email or ''
+    } for f in fornecedores]
     return JsonResponse(data, safe=False)
 
+@csrf_exempt  
 def criar_fornecedor(request):
     """Criar um novo fornecedor"""
     if request.method == 'POST':
@@ -203,3 +222,5 @@ def relatorio_estoque_baixo(request):
     } for p in produtos]
     
     return JsonResponse(data, safe=False)
+
+
