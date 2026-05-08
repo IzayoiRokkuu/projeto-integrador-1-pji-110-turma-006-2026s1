@@ -46,7 +46,6 @@
                     </tr>
                 </thead>
                 <tbody id="tabela-fornecedores">
-                    <!-- Tabela pronta para receber os dados do backend via JS -->
                     <tr>
                         <td colspan="4" class="text-center">Carregando fornecedores...</td>
                     </tr>
@@ -55,7 +54,6 @@
         </div>
     </div>
 
-    <!-- Modal: Adicionar Novo Fornecedor -->
     <div class="modal fade" id="modalFornecedor" tabindex="-1" aria-labelledby="modalFornecedorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -86,6 +84,43 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" id="btnSalvarFornecedor">Salvar Fornecedor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarFornecedor" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Editar Fornecedor</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarFornecedor">
+                        <div class="mb-3">
+                            <label class="form-label">Nome da Empresa</label>
+                            <input type="text" class="form-control" id="editNomeFornecedor">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">CNPJ</label>
+                            <input type="text" class="form-control" id="editCnpjFornecedor">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Contato / Telefone</label>
+                                <input type="text" class="form-control" id="editContatoFornecedor">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="editEmailFornecedor">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
                 </div>
             </div>
         </div>
