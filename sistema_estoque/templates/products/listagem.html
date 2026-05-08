@@ -18,9 +18,9 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/">Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="/cadastro/">Cadastrar Produto</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/listagem/">Listar Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/listagem/">Listar Produtos</a></li>
                     <li class="nav-item"><a class="nav-link" href="/categorias/">Categorias</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/fornecedores/">Fornecedores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/fornecedores/">Fornecedores</a></li>
                     <li class="nav-item"><a class="nav-link" href="/movimentacao/">Movimentação</a></li>
                 </ul>
             </div>
@@ -42,47 +42,49 @@
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
-                <!-- <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Ração Pedigree Carne 10kg</td>
-                        <td>Ração para Cães</td>
-                        <td>15</td>
-                        <td>120,00</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary">Editar</button>
-                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Whiskas Sachê Salmão</td>
-                        <td>Ração para Gatos</td>
-                        <td>50</td>
-                        <td>3,50</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary">Editar</button>
-                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Coleira Antipulgas</td>
-                        <td>Acessórios</td>
-                        <td>8</td>
-                        <td>45,00</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary">Editar</button>
-                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                        </td>
-                    </tr>
-                </tbody> -->
                 <tbody id="tabela-produtos">
                     <tr>
                         <td colspan="6" class="text-center">Carregando produtos...</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarProduto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Editar Produto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarProduto">
+                        <div class="mb-3">
+                            <label class="form-label">Nome do Produto</label>
+                            <input type="text" class="form-control" id="editNomeProduto">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Categoria</label>
+                            <select class="form-select" id="editCategoriaProduto"></select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Quantidade</label>
+                                <input type="number" class="form-control" id="editQuantidadeProduto">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Preço (R$)</label>
+                                <input type="number" step="0.01" class="form-control" id="editPrecoProduto">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </div>
         </div>
     </div>
 
