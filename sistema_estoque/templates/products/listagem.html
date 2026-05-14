@@ -37,15 +37,14 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nome do Produto</th>
                         <th scope="col">Categoria</th>
-                        <th scope="col">Quantidade</th>
+                        <th scope="col">Fornecedor</th> <th scope="col">Quantidade</th>
                         <th scope="col">Preço (R$)</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tabela-produtos">
                     <tr>
-                        <td colspan="6" class="text-center">Carregando produtos...</td>
-                    </tr>
+                        <td colspan="7" class="text-center">Carregando produtos...</td> </tr>
                 </tbody>
             </table>
         </div>
@@ -68,6 +67,10 @@
                             <label class="form-label">Categoria</label>
                             <select class="form-select" id="editCategoriaProduto"></select>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fornecedor</label>
+                            <select class="form-select" id="editFornecedorProduto"></select>
+                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Quantidade</label>
@@ -88,6 +91,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/products/js/listagem.js"></script>
 </body>
 </html>
